@@ -38,7 +38,7 @@ function ProductList() {
 
   return (
     <>
-      <div>
+      <div className='inputField'>
         <input
           type="text"
           placeholder="Search products..."
