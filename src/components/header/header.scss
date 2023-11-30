@@ -1,15 +1,18 @@
-.header{
+.header {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    height: 110px;
-    img{
-        width: 65px;
-        height: 65px;
+    justify-content: space-between;
+    height: 50px;
+    padding: 17px;
+
+    img {
+        width: 20px;
+        height: 20px;
         cursor: pointer;
     }
 }
 
-.header_text{
-    font-size: 45px;
+.header_text {
+    font-size: 25px;
+    align-items: center;
 }
