@@ -1,79 +1,122 @@
+// ProductList.jsx
+
+import React from 'react';
 import {
   useGetByCategoryQuery,
   useGetByPaginationQuery,
-  useState,
+  useSearchProductsQuery,
+  useState as useLocalState,
   Product,
   LoadingImg,
   Dropdown,
   Icon,
-  Pagination
-} from './imports'
-
+  Pagination,
+} from './imports';
 
 function ProductList() {
+  const [category, setCategory] = useLocalState(null);
+  const [page, setPage] = useLocalState(1);
+  const [searchQuery, setSearchQuery] = useLocalState('');
+  const {
+    isSuccess,
+    isFetching,
+    isLoading,
+    data,
+  } = useSearchProductsQuery(searchQuery);
 
-  const [category, setCategory] = useState(null);
-  const [page, setPage] = useState(1);
-  const { isSuccess, isFetching, isLoading, data } = useGetByCategoryQuery(category);
-  const { isSuccess: pageS, data: pageD, isFetching: pageFetch, isLoading: pageLoad } = useGetByPaginationQuery(page)
+  const {
+    isSuccess: pageS,
+    data: pageD,
+    isFetching: pageFetch,
+    isLoading: pageLoad,
+  } = useGetByPaginationQuery(page);
+
+  const handleCategoryChange = (selectedCategory) => {
+    setCategory(selectedCategory);
+    setPage(1);
+  };
+
   return (
     <>
+     
+      <div>
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className='input'
+        />
+      </div>
       <div className="filter">
         <Dropdown label="Category " closeOnSelect={true} color={'dark'} icon={<Icon>🔽</Icon>} onChange={(e) => setCategory(e)}>
-          <Dropdown.Item renderAs="a" value={null}>all</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="smartphones">smartphones</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="laptops">laptops</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="fragrances">fragrances</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="skincare">skincare</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="groceries">groceries</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="home-decoration">home-decoration</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="furniture">furniture</Dropdown.Item>
-          <Dropdown.Item renderAs="a" value="tops">tops</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value={null}>All</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="smartphones">Smartphones</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="laptops">Laptops</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="fragrances">Fragrances</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="skincare">Skincare</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="groceries">Groceries</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="home-decoration">Home-decoration</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="furniture">Furniture</Dropdown.Item>
+          <Dropdown.Item renderAs="a" value="tops">Tops</Dropdown.Item>
         </Dropdown>
       </div>
-      <div className='product_list'>
-        {category == null ?
-          pageLoad || pageFetch ? <img src={LoadingImg}></img> :
-            pageS && pageD.products.map(e => {
-              return <Product
+      <div className="product_list">
+        {category == null ? (
+          pageLoad || pageFetch ? (
+            <img src={LoadingImg} alt="loading" />
+          ) : (
+            pageS &&
+            pageD.products.map((e) => (
+              <Product
                 img={e.images[0]}
                 title={e.title}
                 price={e.price}
                 descr={e.description}
-                key={Math.random()}
+                key={e.id}
                 id={e.id}
-                isInCart={false} />
-            }) :
-          isLoading || isFetching ? <img src={LoadingImg}></img> :
-            isSuccess && data.products.map(e => {
-              return <Product
+                isInCart={false}
+              />
+            ))
+          )
+        ) : (
+          isLoading || isFetching ? (
+            <img src={LoadingImg} alt="loading" />
+          ) : (
+            isSuccess &&
+            data.products.map((e) => (
+              <Product
                 img={isLoading || isFetching ? LoadingImg : e.images[0]}
                 title={e.title}
                 price={e.price}
                 descr={e.description}
-                key={Math.random()}
+                key={e.id}
                 id={e.id}
-                isInCart={false} />
-            })}
+                isInCart={false}
+              />
+            ))
+          )
+        )}
       </div>
-      {category == null && <Pagination
-        className='pagination'
-        current={page}
-        showFirstLast
-        onChange={(e) => {
-          setPage(e);
-          window.scrollTo({
-            top: 700,
-            left: 0,
-            behavior: 'smooth'
-          });
-        }}
-        total={5}
-        align='center'
-      />}
-
+      {category == null && (
+        <Pagination
+          className="pagination"
+          current={page}
+          showFirstLast
+          onChange={(e) => {
+            setPage(e);
+            window.scrollTo({
+              top: 700,
+              left: 0,
+              behavior: 'smooth',
+            });
+          }}
+          total={5}
+          align="center"
+        />
+      )}
     </>
-  )
+  );
 }
 
 export default ProductList;
