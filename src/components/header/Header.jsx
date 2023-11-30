@@ -17,8 +17,8 @@ function Header() {
         </Link> 
         {user ? (
           <>
-            <p style={{ color: '#fff', marginRight: '10px' }}>Welcome, {user.email}</p>
-            <button onClick={() => signOut(auth)} style={{ color: '#fff', cursor: 'pointer' }}>
+            <p style={{ color: '#fff',  }}>Welcome, {user.email}</p>
+            <button onClick={() => signOut(auth)} style={{ color: '#fff', cursor: 'pointer' ,marginleft: '10px'}}>
               Logout
             </button>
           </>

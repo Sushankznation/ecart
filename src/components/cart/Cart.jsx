@@ -18,7 +18,7 @@ function Cart() {
 
   return (
     <div className='cart'>
-      <Header></Header>
+      <Header/>
       <div className="content">
         <div className='product_list_cart'>
           {

@@ -9,9 +9,9 @@ import {
 
 
 function Order() {
-  const [username, setUsername] = useState('bulma');
-  const [email, setEmail] = useState('hello@gmail.com');
-  const [number, setNumber] = useState('0972315530');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [number, setNumber] = useState('');
   const [isValid, setIsValid] = useState(true);
 
   const validateEmail = () => {
