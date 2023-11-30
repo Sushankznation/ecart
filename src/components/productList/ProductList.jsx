@@ -47,12 +47,7 @@ function ProductList() {
           className='input'
         />
       </div>
-      {/* <div className="filter">
-        <Dropdown label="Category " closeOnSelect={true} color={'dark'} icon={<Icon>🔽</Icon>} onChange={(e) => handleCategoryChange(e)}>
-
-        </Dropdown>
-      </div> */}
-      <div className="product_list">
+           <div className="product_list">
         {searchQuery !== '' && searchSuccess && (
           searchData.products.map((e) => (
             <Product
