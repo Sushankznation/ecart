@@ -1,5 +1,3 @@
-// ProductList.jsx
-
 import React from 'react';
 import {
   useGetByCategoryQuery,
